@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Validator;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -16,8 +19,10 @@ class UserController extends Controller
 
         if (Auth::attempt($credentials)) {
             $success['token'] = Auth::user()->createToken('MyApp')->accessToken;
+            $success['name'] = Auth::user()->name;
 
-            return repsonse()->json('success' => $success);
+            return response()->json(['success' => $success]);
+
         }
 
         return response()->json(['error' => 'Unauthorised'], 401);
